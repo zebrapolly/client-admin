@@ -2,38 +2,38 @@ import * as React from 'react';
 
 import { connect } from 'react-redux';
 
-import { Table } from 'antd';
-import { Spin } from 'antd';
-import { loadLogsClient } from 'src/actions';
-// import { ReduxState } from 'src/types';
+import { Spin, Table } from 'antd';
+import { loadLogsClient, loadedLogsMessageClient } from 'src/actions';
 import { ClientLogs } from '../types/ClientLogs.types';
-
-const columns = [{
-    title: 'Date',
-    dataIndex: 'date',
-    key: 'date',
-  }, {
-    title: 'Abonent Type',
-    dataIndex: 'abonentType',
-    key: 'abonentType',
-  }, {
-    title: 'Abonent Contract',
-    dataIndex: 'abonentContract',
-    key: 'abonentContract',
-  },
-  {
-    title: 'Call Id',
-    dataIndex: 'callId',
-    key: 'callId'
-  }
-];
-
+import { ClientTable } from '../ClientTable/ClientTable';
 interface Props {
-    logs: Array<ClientLogs.ClientLog>
+    logs: Array<ClientLogs.Message>
+    message: Array<ClientLogs.Record>
     isFetching: boolean
     loadLogsClient: () => any
+    loadedLogsMessageClient: (record: Array<ClientLogs.Record>) => {}
 }
 
+const columns = [{
+  title: 'Date',
+  dataIndex: 'date',
+  key: 'date',
+  render: (date: number) =>  new Date(date).toISOString(),
+}, {
+  title: 'Abonent Type',
+  dataIndex: 'abonentType',
+  key: 'abonentType',
+}, {
+  title: 'Abonent Contact',
+  dataIndex: 'abonentContact',
+  key: 'abonentContact',
+},
+{
+  title: 'Call Id',
+  dataIndex: 'callId',
+  key: 'callId'
+}
+];
 class ClientTab extends React.Component<Props> {
     componentDidMount() {
       this.props.loadLogsClient();
@@ -45,10 +45,14 @@ class ClientTab extends React.Component<Props> {
       }
       console.log(this.props)
         return (
-            <Table dataSource={this.props.logs} rowKey={'callId'} columns={columns} />
+          <React.Fragment>
+
+            <ClientTable logs={this.props.logs} loadedLogsMessageClient={this.props.loadedLogsMessageClient}/>
+            <Table size="small" dataSource={this.props.message} columns={columns}/>
+          </React.Fragment>
       )
     }
 }
 
 
-export default connect((state: ClientLogs.State) => state, {loadLogsClient})(ClientTab);
+export default connect((state: ClientLogs.State) => state, {loadLogsClient, loadedLogsMessageClient})(ClientTab);

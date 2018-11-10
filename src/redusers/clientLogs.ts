@@ -9,41 +9,27 @@ const initialState: ClientLogs.State = {
         logs: [
             {
                 date: 2342432,
+                logSeq: 3434,
                 abonentType: 'Client',
                 abonentContract: 'test',
-                callId: 'dsfsedf345erewfr1'
-            },
-            {
-                date: 2342432,
-                abonentType: 'Client',
-                abonentContract: 'test',
-                callId: 'dsfsedf345erewfr2'
-            },
-            {
-                date: 2342432,
-                abonentType: 'Client',
-                abonentContract: 'test',
-                callId: 'dsfsedf345erewfr3'
-            },
-            {
-                date: 2342432,
-                abonentType: 'Client',
-                abonentContract: 'test',
-                callId: 'dsfsedf345erewfr4'
-            },
-            {
-                date: 2342432,
-                abonentType: 'Client',
-                abonentContract: 'test',
-                callId: 'dsfsedf345erewfr5'
-            },
-            {
-                date: 2342432,
-                abonentType: 'Client',
-                abonentContract: 'test',
-                callId: 'dsfsedf345erewfr6'
+                callId: 'dsfsedf345erewfr1',
+                messageList: [
+                    {
+                        direction: 'tete',
+                        payload: {
+                            
+                        },
+                        traceType: 'dfsfsf',
+                        logSeq: 5435,
+                        date: 2342432,
+                        abonentType: 'Client',
+                        abonentContract: 'test',
+                        callId: 'dsfsedf345erewfr1',
+                    }
+                ]
             }
-        ]
+        ],
+        message: []
 };
 
 export default function reduser(state: ClientLogs.State = initialState, action: any) {
@@ -60,6 +46,13 @@ export default function reduser(state: ClientLogs.State = initialState, action: 
                 isFetched: true,
                 isFetching: false,
                 logs: action.payload
+            }
+        case "LOADED_LOGS_MESSAGE_CLIENT":
+            return {
+                ...state,
+                isFetched: true,
+                isFetching: false,
+                message: action.message
             }
             default: return state;
     }
