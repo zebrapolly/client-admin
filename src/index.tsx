@@ -5,7 +5,7 @@ import './index.css';
 
 import { createStore, applyMiddleware, compose } from 'redux'
 import { Provider } from 'react-redux';
-import reduser from './redusers/clientLogs';
+import appReduser from './redusers/clientLogs';
 import { createEpicMiddleware } from 'redux-observable';
 import { rootEpic } from './epics';
 
@@ -14,7 +14,7 @@ const epicMiddleware = createEpicMiddleware();
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
-  reduser,
+  appReduser,
   composeEnhancers(
     applyMiddleware(epicMiddleware)
   )

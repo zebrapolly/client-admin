@@ -3,8 +3,8 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 
 import { Spin, Table } from 'antd';
-import { loadLogsClient, loadedLogsMessageClient } from 'src/actions';
-import { ClientLogs } from '../types/ClientLogs.types';
+import { loadLogsClient, loadedLogsMessageClient } from 'src/redusers/clientLogs';
+import { ClientLogs } from '../../types/ClientLogs.types';
 import { ClientTable } from '../ClientTable/ClientTable';
 interface Props {
     logs: Array<ClientLogs.Message>

@@ -1,4 +1,4 @@
-import { ClientLogs } from "./components/types/ClientLogs.types";
+import { ClientLogs } from './types/ClientLogs.types';
 
 export type Timestamp = number;
 

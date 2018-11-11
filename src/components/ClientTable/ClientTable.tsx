@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Table } from 'antd';
-import { ClientLogs } from '../types/ClientLogs.types';
+import { ClientLogs } from '../../types/ClientLogs.types';
 
 const columns = [{
   title: 'Date',

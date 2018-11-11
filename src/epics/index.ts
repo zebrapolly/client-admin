@@ -1,8 +1,9 @@
 import { ajax } from 'rxjs/ajax';
 import { map, flatMap, switchMap, toArray, filter, groupBy } from 'rxjs/operators';
 import { combineEpics, ofType } from 'redux-observable';
-import { loadedLogsClient } from 'src/actions';
-import { ClientLogs, Direction } from 'src/components/types/ClientLogs.types';
+import { loadedLogsClient } from 'src/redusers/clientLogs';
+//@ts-ignore
+import { ClientLogs, Direction } from '../types/ClientLogs.types'
 // import { Observable } from 'rxjs';
 // import reduser from 'src/redusers/ClientLogs';
 

@@ -14,6 +14,8 @@ export enum Direction {
     OUTBOUND = 'OUTBOUND',
     INBOUND = 'INBOUND'
 }
+
+
 export namespace ClientLogs {
     export type State = {
         isFetched: boolean;
