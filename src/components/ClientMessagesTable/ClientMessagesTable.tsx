@@ -62,6 +62,7 @@ const columns = [{
 
 interface Props {
   messages: Array<ClientLogs.Message>
+  separateHeight: number
 }
 
 
@@ -69,7 +70,7 @@ export class ClientMessagesTable extends React.Component<Props> {
 
   render() {
     return (
-      <Table size="small" dataSource={this.props.messages} rowKey={'date'} columns={columns} />
+      <Table pagination={false} scroll={{y: this.props.separateHeight}} size="small" dataSource={this.props.messages} rowKey={'logSeq'} columns={columns} />
     )
   }
 }

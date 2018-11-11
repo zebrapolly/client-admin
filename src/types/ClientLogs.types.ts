@@ -20,6 +20,8 @@ export namespace ClientLogs {
     export type State = {
         isFetched: boolean;
         isFetching: boolean;
+        separateHeight: number;
+        tableHeight: number
         calls: Array<Call>
         messages: Array<Message>
     }

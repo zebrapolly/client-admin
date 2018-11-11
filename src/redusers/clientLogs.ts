@@ -6,10 +6,13 @@ import { ClientLogs } from '../types/ClientLogs.types';
 export const LOAD_LOGS_CLIENT = 'LOAD_LOGS_CLIENT';
 export const LOADED_LOGS_CLIENT = 'LOADED_LOGS_CLIENT';
 export const LOADED_LOGS_MESSAGE_CLIENT = 'LOADED_LOGS_MESSAGE_CLIENT';
+export const TOGGLE_SEPARATE_CLIENT = 'TOGGLE_SEPARATE_CLIENT';
 
 const initialState: ClientLogs.State = {
         isFetching: false,
         isFetched: false,
+        separateHeight: 200,
+        tableHeight: 200,
         calls: [
             {
                 date: 2342432,
@@ -58,6 +61,13 @@ export default function clientLogs(state: ClientLogs.State = initialState, actio
                 isFetching: false,
                 messages: action.messages
             }
+        case TOGGLE_SEPARATE_CLIENT:{
+            return {
+                ...state,
+                separateHeight: action.separateHeight,
+                tableHeight: action.tableHeight
+            }
+        }
         default: 
             return state;
     }
@@ -84,5 +94,13 @@ export function loadedLogsMessageClient(messages: Array<ClientLogs.Message>) {
     return {
         type: LOADED_LOGS_MESSAGE_CLIENT,
         messages
+    }
+}
+export function toggleSeparate(separateHeight: number, tableHeight: number) {
+    console.log('toggleSeparate', tableHeight)
+    return {
+        type: TOGGLE_SEPARATE_CLIENT,
+        separateHeight,
+        tableHeight
     }
 }

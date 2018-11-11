@@ -27,10 +27,12 @@ const columns = [{
 interface Props {
   loadedLogsMessageClient: (record: Array<ClientLogs.Message>) => {}
   logs: Array<ClientLogs.Call>
+  tableHeight: number
 }
 
 
 export class ClientCallsTable extends React.Component<Props> {
+
   onRow = (record: ClientLogs.Call) => {
     return {
       onClick: () => {
@@ -42,7 +44,7 @@ export class ClientCallsTable extends React.Component<Props> {
 
   render() {
     return (
-      <Table dataSource={this.props.logs} onRow={this.onRow} rowKey={'callId'} columns={columns} />
+        <Table pagination={false} scroll={{y: this.props.tableHeight}} dataSource={this.props.logs} onRow={this.onRow} rowKey={'callId'} columns={columns} />
     )
   }
 }
