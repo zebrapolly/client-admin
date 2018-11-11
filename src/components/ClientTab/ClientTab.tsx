@@ -2,42 +2,22 @@ import * as React from 'react';
 
 import { connect } from 'react-redux';
 
-import { Spin, Table } from 'antd';
+import { Spin } from 'antd';
 import { loadLogsClient, loadedLogsMessageClient } from 'src/redusers/clientLogs';
 import { ClientLogs } from '../../types/ClientLogs.types';
-import { ClientTable } from '../ClientTable/ClientTable';
+import { ClientCallsTable } from '../ClientCallsTable/ClientCallsTable';
+import { ClientMessagesTable } from '../ClientMessagesTable/ClientMessagesTable';
 interface Props {
-    logs: Array<ClientLogs.Message>
-    message: Array<ClientLogs.Record>
+    calls: Array<ClientLogs.Call>
+    messages: Array<ClientLogs.Message>
     isFetching: boolean
     loadLogsClient: () => any
-    loadedLogsMessageClient: (record: Array<ClientLogs.Record>) => {}
+    loadedLogsMessageClient: (record: Array<ClientLogs.Message>) => {}
 }
-
-const columns = [{
-  title: 'Date',
-  dataIndex: 'date',
-  key: 'date',
-  render: (date: number) =>  new Date(date).toISOString(),
-}, {
-  title: 'Abonent Type',
-  dataIndex: 'abonentType',
-  key: 'abonentType',
-}, {
-  title: 'Abonent Contact',
-  dataIndex: 'abonentContact',
-  key: 'abonentContact',
-},
-{
-  title: 'Call Id',
-  dataIndex: 'callId',
-  key: 'callId'
-}
-];
 class ClientTab extends React.Component<Props> {
     componentDidMount() {
       this.props.loadLogsClient();
-      // console.log(this.props)
+      console.log('this.props.messages', this.props.messages)
     }
     render() {
       if (this.props.isFetching) {
@@ -47,8 +27,8 @@ class ClientTab extends React.Component<Props> {
         return (
           <React.Fragment>
 
-            <ClientTable logs={this.props.logs} loadedLogsMessageClient={this.props.loadedLogsMessageClient}/>
-            <Table size="small" dataSource={this.props.message} columns={columns}/>
+            <ClientCallsTable logs={this.props.calls} loadedLogsMessageClient={this.props.loadedLogsMessageClient}/>
+            <ClientMessagesTable messages={this.props.messages} />
           </React.Fragment>
       )
     }

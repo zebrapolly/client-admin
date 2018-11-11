@@ -20,8 +20,8 @@ export namespace ClientLogs {
     export type State = {
         isFetched: boolean;
         isFetching: boolean;
-        logs: Array<Message>
-        message: Array<Record>
+        calls: Array<Call>
+        messages: Array<Message>
     }
     export type Raw = {
         date: Timestamp
@@ -31,15 +31,15 @@ export namespace ClientLogs {
         logSeq: number
         payload: any
     }
-    export type Message = {
+    export type Call = {
         date: Timestamp
         logSeq: number
         abonentType: string,
         abonentContract?: string,
         callId: string
-        messageList: Array<Record>
+        messageList: Array<Message>
     }
-    export type Record = {
+    export type Message = {
         date: Timestamp
         logSeq: number
         direction?: string

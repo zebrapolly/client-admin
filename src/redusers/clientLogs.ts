@@ -10,7 +10,7 @@ export const LOADED_LOGS_MESSAGE_CLIENT = 'LOADED_LOGS_MESSAGE_CLIENT';
 const initialState: ClientLogs.State = {
         isFetching: false,
         isFetched: false,
-        logs: [
+        calls: [
             {
                 date: 2342432,
                 logSeq: 3434,
@@ -33,7 +33,7 @@ const initialState: ClientLogs.State = {
                 ]
             }
         ],
-        message: []
+        messages: []
 };
 
 export default function clientLogs(state: ClientLogs.State = initialState, action: any) {
@@ -49,14 +49,14 @@ export default function clientLogs(state: ClientLogs.State = initialState, actio
                 ...state,
                 isFetched: true,
                 isFetching: false,
-                logs: action.payload
+                calls: action.calls
             }
         case LOADED_LOGS_MESSAGE_CLIENT:
             return {
                 ...state,
                 isFetched: true,
                 isFetching: false,
-                message: action.message
+                messages: action.messages
             }
         default: 
             return state;
@@ -72,17 +72,17 @@ export function loadLogsClient() {
     }
 }
 
-export function loadedLogsClient(logs: Array<ClientLogs.Message>) {
-    console.log('loadedLogsClient', logs)
+export function loadedLogsClient(calls: Array<ClientLogs.Call>) {
+    console.log('loadedLogsClient', calls)
     return {
         type: LOADED_LOGS_CLIENT,
-        payload: logs
+        calls
     }
 }
-export function loadedLogsMessageClient(logs: Array<ClientLogs.Record>) {
-    console.log('loadedLogsMessageClient', logs)
+export function loadedLogsMessageClient(messages: Array<ClientLogs.Message>) {
+    console.log('loadedLogsMessageClient', messages)
     return {
         type: LOADED_LOGS_MESSAGE_CLIENT,
-        message: logs
+        messages
     }
 }

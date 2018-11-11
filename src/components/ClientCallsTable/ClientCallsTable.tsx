@@ -25,13 +25,13 @@ const columns = [{
 
 
 interface Props {
-  loadedLogsMessageClient: (record: Array<ClientLogs.Record>) => {}
-  logs: Array<ClientLogs.Message>
+  loadedLogsMessageClient: (record: Array<ClientLogs.Message>) => {}
+  logs: Array<ClientLogs.Call>
 }
 
 
-export class ClientTable extends React.Component<Props> {
-  onRow = (record: ClientLogs.Message) => {
+export class ClientCallsTable extends React.Component<Props> {
+  onRow = (record: ClientLogs.Call) => {
     return {
       onClick: () => {
         this.props.loadedLogsMessageClient(record.messageList)

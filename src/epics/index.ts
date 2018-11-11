@@ -27,10 +27,10 @@ const loadClientLogsEpic = (action$: any): any => {
                     payload,
                 }
             }),
-            filter((item: ClientLogs.Record) => item.callId !== undefined),
-            groupBy((item: ClientLogs.Record) => item.callId),
+            filter((item: ClientLogs.Message) => item.callId !== undefined),
+            groupBy((item: ClientLogs.Message) => item.callId),
             flatMap(messageList => messageList.pipe(
-                map((model: ClientLogs.Record)=> {
+                map((model: ClientLogs.Message)=> {
                     const direction = (model.direction === Direction.INBOUND )? "Client" : "Server";
                     const iceCount = model.payload.ice ? model.payload.ice.length == 0 ? null : model.payload.ice.length : null;
                     return {
@@ -46,7 +46,7 @@ const loadClientLogsEpic = (action$: any): any => {
                 }),
                 toArray(),
                 map(list => {
-                    const res: Array<ClientLogs.Record> = [];
+                    const res: Array<ClientLogs.Message> = [];
                     let newInstanceId = false;
                     let newPeerConnectionId = false;
                     let newSdpId = false;
