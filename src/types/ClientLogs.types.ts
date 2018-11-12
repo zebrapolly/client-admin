@@ -24,6 +24,7 @@ export namespace ClientLogs {
         tableHeight: number
         calls: Array<Call>
         messages: Array<Message>
+        message: any
     }
     export type Raw = {
         date: Timestamp

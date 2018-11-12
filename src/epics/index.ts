@@ -2,20 +2,26 @@ import { ajax } from 'rxjs/ajax';
 import { map, flatMap, switchMap, toArray, filter, groupBy } from 'rxjs/operators';
 import { combineEpics, ofType } from 'redux-observable';
 import { loadedLogsClient } from 'src/redusers/clientLogs';
-//@ts-ignore
 import { ClientLogs, Direction } from '../types/ClientLogs.types'
-// import { Observable } from 'rxjs';
-// import reduser from 'src/redusers/ClientLogs';
+
 
 const loadClientLogsEpic = (action$: any): any => {
-    console.log('action', action$);
+    console.log('action$', action$);
+
     return action$
     .pipe(
         ofType('LOAD_LOGS_CLIENT'),
-        switchMap(() => ajax.getJSON('http://127.0.0.1:4000/client').pipe(
+        switchMap(({value}) => {
+            console.log(action$);
+            let url = 'http://127.0.0.1:8084/admin/api/log/client';
+            if (value) {
+                url += `?payload=${value}`
+            }
+            console.log('url', url)
+            return ajax.getJSON(url).pipe(
             flatMap((list: ClientLogs.Raw[]) => list),
             map((item: ClientLogs.Raw) => {
-                console.log('item', item)
+                // console.log('i   tem', item)
                 let payload;
                 if (item.message) {
                     payload = JSON.parse(item.message);
@@ -116,7 +122,7 @@ const loadClientLogsEpic = (action$: any): any => {
                     // }),
                     
                     )
-            )
+        })
         // ignoreElements()
         // )
     )

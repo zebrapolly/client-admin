@@ -6,26 +6,30 @@ const columns = [{
   title: 'Date',
   dataIndex: 'date',
   key: 'date',
+  width: 150,
   render: (date: number) =>  new Date(date).toISOString(),
 }, {
   title: 'Abonent Type',
   dataIndex: 'abonentType',
   key: 'abonentType',
+  width: 100
 }, {
   title: 'Abonent Contact',
   dataIndex: 'abonentContact',
   key: 'abonentContact',
+  width: 100
 },
 {
   title: 'Call Id',
   dataIndex: 'callId',
-  key: 'callId'
+  key: 'callId',
+  width: 150
 }
 ];
 
 
 interface Props {
-  loadedLogsMessageClient: (record: Array<ClientLogs.Message>) => {}
+  loadedLogsCallClient: (record: Array<ClientLogs.Message>) => {}
   logs: Array<ClientLogs.Call>
   tableHeight: number
 }
@@ -36,7 +40,7 @@ export class ClientCallsTable extends React.Component<Props> {
   onRow = (record: ClientLogs.Call) => {
     return {
       onClick: () => {
-        this.props.loadedLogsMessageClient(record.messageList)
+        this.props.loadedLogsCallClient(record.messageList)
         console.log(record)
       },       // click row
     };
@@ -44,7 +48,7 @@ export class ClientCallsTable extends React.Component<Props> {
 
   render() {
     return (
-        <Table pagination={false} scroll={{y: this.props.tableHeight}} dataSource={this.props.logs} onRow={this.onRow} rowKey={'callId'} columns={columns} />
+        <Table size="small" pagination={false} scroll={{y: this.props.tableHeight- 40}} dataSource={this.props.logs} onRow={this.onRow} rowKey={'callId'} columns={columns} />
     )
   }
 }

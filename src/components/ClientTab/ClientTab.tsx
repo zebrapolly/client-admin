@@ -2,59 +2,73 @@ import * as React from 'react';
 
 import { connect } from 'react-redux';
 
-import { Spin } from 'antd';
+import { Spin, Input } from 'antd';
+const Search = Input.Search;
 //@ts-ignore
 import SplitterLayout from 'react-splitter-layout';
 
-import { loadLogsClient, loadedLogsMessageClient, toggleSeparate } from 'src/redusers/clientLogs';
+import { loadLogsClient, loadedLogsCallClient, toggleSeparate, loadedLogsMessageClient } from 'src/redusers/clientLogs';
 import { ClientLogs } from '../../types/ClientLogs.types';
 import { ClientCallsTable } from '../ClientCallsTable/ClientCallsTable';
 import { ClientMessagesTable } from '../ClientMessagesTable/ClientMessagesTable';
 interface Props {
     calls: Array<ClientLogs.Call>
     messages: Array<ClientLogs.Message>
+    message: any
     isFetching: boolean
     separateHeight: number
     tableHeight: number
     toggleSeparate: (separateHeight: number, tableHeight: number) => {} 
-    loadLogsClient: () => any
-    loadedLogsMessageClient: (record: Array<ClientLogs.Message>) => {}
+    loadLogsClient: (value?: string) => any
+    loadedLogsCallClient: (record: Array<ClientLogs.Message>) => {}
+    loadedLogsMessageClient: (record: ClientLogs.Message) => {}
 }
 class ClientTab extends React.Component<Props> {
   separateHeight:number
   componentDidMount() {
+    //@ts-ignore
+    this.props.toggleSeparate(this.separateHeight, window.innerHeight - this.separateHeight);
     this.props.loadLogsClient();
-    console.log('this.props', this.props)
   }
-  // onDragStart = (event:any) => {console.log('onDragStart')};
+  //@ts-ignore
   onDragEnd = () => this.props.toggleSeparate(this.separateHeight, window.innerHeight - this.separateHeight);
   onSecondaryPaneSizeChange = (event: number) => this.separateHeight = event;
+  onSearch = (value: string) => this.props.loadLogsClient(value);
   render() {
-
+  
     if (this.props.isFetching) {
       return <Spin className="spin"/>
     }
 
       return (
-        // <React.Fragment>
+        <React.Fragment>
+          <Search
+            placeholder=""
+            onSearch={this.onSearch}
+            style={{ width: 200, paddingLeft: 15, marginBottom: 15 }}
+          />
         <SplitterLayout 
           vertical={true} 
+          primaryIndex={1}
           // percentage={true}
           // onDragStart={this.onDragStart}
           onDragEnd={this.onDragEnd}
           onSecondaryPaneSizeChange={this.onSecondaryPaneSizeChange}
         > 
           <ClientCallsTable 
-            tableHeight={this.props.tableHeight}
+            tableHeight={this.props.separateHeight}
             logs={this.props.calls}
-            loadedLogsMessageClient={this.props.loadedLogsMessageClient}
+            loadedLogsCallClient={this.props.loadedLogsCallClient}
           />
-          <ClientMessagesTable separateHeight={this.props.separateHeight} messages={this.props.messages} />
+          <SplitterLayout>
+            <ClientMessagesTable loadedLogsMessageClient={this.props.loadedLogsMessageClient} separateHeight={this.props.tableHeight} messages={this.props.messages} />
+            <div>{JSON.stringify(this.props.message, null, 4)}</div>
+          </SplitterLayout>
         </SplitterLayout>
-        // </React.Fragment>
+        </React.Fragment>
     )
   }
 }
 
 
-export default connect((state: ClientLogs.State) => state, {loadLogsClient, loadedLogsMessageClient, toggleSeparate})(ClientTab);
+export default connect((state: ClientLogs.State) => state, {loadLogsClient, loadedLogsMessageClient, loadedLogsCallClient, toggleSeparate})(ClientTab);
