@@ -19,20 +19,21 @@ const columns = [{
   title: 'Direction',
   dataIndex: 'direction',
   key: 'direction',
-
+  minConstraints: [40,40],
   width: 70,
 }, {
   title: 'Request',
   dataIndex: 'request',
   key: 'request',
-
+  minConstraints: [35,35],
   width: 70,
 },
 {
   title: 'IC',
   dataIndex: 'ic',
   key: 'ic',
-  width: 40,
+  width: 60,
+  minConstraints: [30, 20],
   render: (value: boolean) => {
     if (value) {
       return (<Icon type="info-circle" style={{ color:'red' }} theme="outlined"/>)
@@ -46,9 +47,10 @@ const columns = [{
   dataIndex: 'is',
   key: 'os',
   width: 40,
+  minConstraints: [30, 20],
   render: (value: boolean) => {
     if (value) {
-      return (<Icon type="info-circle" style={{ color:'red' }} theme="outlined"/>)
+      return (<Icon type="info-circle" style={{ color:'red', textAlign: 'center' }} theme="outlined"/>)
     }
     else 
       return;
@@ -59,6 +61,7 @@ const columns = [{
   dataIndex: 'newInstanceId',
   key: 'newInstanceId',
   width: 40,
+  minConstraints: [30, 20],
   render: (value: boolean) => {
     if (value) {
       return (<Icon type="info-circle" style={{ color:'red' }} theme="outlined"/>)
@@ -70,14 +73,14 @@ const columns = [{
 ];
 
 const ResizeableTitle = (props: any) => {
-  const { onResizeStop, width, ...restProps } = props;
-
+  const { onResizeStop, width, minConstraints, ...restProps } = props;
+console.log('minConstraints', minConstraints)
   if (!width) {
     return <th {...restProps} />;
   }
 
   return (
-    <Resizable width={width} height={0} onResizeStop={onResizeStop}>
+    <Resizable width={width} minConstraints={minConstraints} height={0} onResizeStop={onResizeStop}>
       <th {...restProps} />
     </Resizable>
   );
@@ -122,10 +125,11 @@ export class ClientMessagesTable extends React.Component<Props> {
       onHeaderCell: (column: any) => ({
         width: column.width,
         onResizeStop: this.handleResize(index),
+        minConstraints: column.minConstraints
       }),
     }));
     return (
-      <Table bordered={true} useFixedHeader={true} pagination={false} onRow={this.onRow} scroll={{y: this.props.separateHeight - 45}} size="small" dataSource={this.props.messages} rowKey={'logSeq'} columns={cols} components={this.components}/>
+      <Table bordered={true} useFixedHeader={true} pagination={false} onRow={this.onRow} scroll={{x: 400, y: this.props.separateHeight - 45}} size="small" dataSource={this.props.messages} rowKey={'logSeq'} columns={cols} components={this.components}/>
     )
   }
 }
