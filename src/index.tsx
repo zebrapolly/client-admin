@@ -11,7 +11,6 @@ import { rootEpic } from './epics';
 
 const epicMiddleware = createEpicMiddleware();
 //@ts-ignore
-
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
   appReduser,

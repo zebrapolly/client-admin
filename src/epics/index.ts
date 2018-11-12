@@ -12,16 +12,13 @@ const loadClientLogsEpic = (action$: any): any => {
     .pipe(
         ofType('LOAD_LOGS_CLIENT'),
         switchMap(({value}) => {
-            console.log(action$);
             let url = 'http://127.0.0.1:8084/admin/api/log/client';
             if (value) {
                 url += `?payload=${value}`
             }
-            console.log('url', url)
             return ajax.getJSON(url).pipe(
             flatMap((list: ClientLogs.Raw[]) => list),
             map((item: ClientLogs.Raw) => {
-                // console.log('i   tem', item)
                 let payload;
                 if (item.message) {
                     payload = JSON.parse(item.message);
