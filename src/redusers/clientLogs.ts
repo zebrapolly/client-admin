@@ -8,9 +8,11 @@ export const LOADED_LOGS_CLIENT = 'LOADED_LOGS_CLIENT';
 export const LOADED_LOGS_CALL_CLIENT = 'LOADED_LOGS_CALL_CLIENT';
 export const LOADED_LOGS_MESSAGE_CLIENT = 'LOADED_LOGS_MESSAGE_CLIENT';
 export const TOGGLE_SEPARATE_CLIENT = 'TOGGLE_SEPARATE_CLIENT';
+export const MESSAGE_DISABLE = 'MESSAGE_DISABLE';
 
 const initialState: ClientLogs.State = {
         isFetching: false,
+        isMessageVisible: false,
         isFetched: false,
         separateHeight: 200,
         tableHeight: 200,
@@ -54,16 +56,19 @@ export default function clientLogs(state: ClientLogs.State = initialState, actio
                 ...state,
                 isFetched: true,
                 isFetching: false,
+                isMessageVisible: false,
                 calls: action.calls
             }
         case LOADED_LOGS_CALL_CLIENT:
             return {
                 ...state,
+                isMessageVisible: false,
                 messages: action.messages
             }
         case LOADED_LOGS_MESSAGE_CLIENT:
             return {
                 ...state,
+                isMessageVisible: true,
                 message: action.message
             }
         case TOGGLE_SEPARATE_CLIENT:{
@@ -71,6 +76,12 @@ export default function clientLogs(state: ClientLogs.State = initialState, actio
                 ...state,
                 separateHeight: action.separateHeight,
                 tableHeight: action.tableHeight
+            }
+        }
+        case MESSAGE_DISABLE:{
+            return {
+                ...state,
+                isMessageVisible: false
             }
         }
         default: 
@@ -107,6 +118,12 @@ export function loadedLogsMessageClient(message: ClientLogs.Message) {
     return {
         type: LOADED_LOGS_MESSAGE_CLIENT,
         message: message.payload
+    }
+}
+export function messageDisable() {
+    console.log('messageDisable')
+    return {
+        type: MESSAGE_DISABLE,
     }
 }
 export function toggleSeparate(separateHeight: number, tableHeight: number) {

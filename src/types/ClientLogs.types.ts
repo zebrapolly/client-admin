@@ -18,9 +18,10 @@ export enum Direction {
 
 export namespace ClientLogs {
     export type State = {
-        isFetched: boolean;
-        isFetching: boolean;
-        separateHeight: number;
+        isMessageVisible: boolean
+        isFetched: boolean
+        isFetching: boolean
+        separateHeight: number
         tableHeight: number
         calls: Array<Call>
         messages: Array<Message>
@@ -28,7 +29,7 @@ export namespace ClientLogs {
     }
     export type Raw = {
         date: Timestamp
-        direction: Direction,
+        direction: Direction
         traceType: string
         message: string
         logSeq: number
@@ -37,8 +38,8 @@ export namespace ClientLogs {
     export type Call = {
         date: Timestamp
         logSeq: number
-        abonentType: string,
-        abonentContract?: string,
+        abonentType: string
+        abonentContract?: string
         callId: string
         messageList: Array<Message>
     }
@@ -49,8 +50,8 @@ export namespace ClientLogs {
         traceType?: string
         payload: any
         request?: RequestType
-        abonentType?: string,
-        abonentContract?: string,
+        abonentType?: string
+        abonentContract?: string
         callId: string
     }
 }

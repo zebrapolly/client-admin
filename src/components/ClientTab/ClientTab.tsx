@@ -2,12 +2,12 @@ import * as React from 'react';
 
 import { connect } from 'react-redux';
 
-import { Spin, Input } from 'antd';
+import { Spin, Input, Button } from 'antd';
 const Search = Input.Search;
 //@ts-ignore
 import SplitterLayout from 'react-splitter-layout';
 
-import { loadLogsClient, loadedLogsCallClient, toggleSeparate, loadedLogsMessageClient } from 'src/redusers/clientLogs';
+import { loadLogsClient, loadedLogsCallClient, toggleSeparate, loadedLogsMessageClient, messageDisable } from 'src/redusers/clientLogs';
 import { ClientLogs } from '../../types/ClientLogs.types';
 import { ClientCallsTable } from '../ClientCallsTable/ClientCallsTable';
 import { ClientMessagesTable } from '../ClientMessagesTable/ClientMessagesTable';
@@ -18,10 +18,12 @@ interface Props {
     isFetching: boolean
     separateHeight: number
     tableHeight: number
+    isMessageVisible: boolean
     toggleSeparate: (separateHeight: number, tableHeight: number) => {} 
     loadLogsClient: (value?: string) => any
     loadedLogsCallClient: (record: Array<ClientLogs.Message>) => {}
     loadedLogsMessageClient: (record: ClientLogs.Message) => {}
+    messageDisable: () => {}
 }
 class ClientTab extends React.Component<Props> {
   separateHeight:number
@@ -34,6 +36,7 @@ class ClientTab extends React.Component<Props> {
   onDragEnd = () => this.props.toggleSeparate(this.separateHeight, window.innerHeight - this.separateHeight);
   onSecondaryPaneSizeChange = (event: number) => this.separateHeight = event;
   onSearch = (value: string) => this.props.loadLogsClient(value);
+  messageDisableHandle = () => this.props.messageDisable();
   render() {
   
     if (this.props.isFetching) {
@@ -62,7 +65,7 @@ class ClientTab extends React.Component<Props> {
           />
           <SplitterLayout>
             <ClientMessagesTable loadedLogsMessageClient={this.props.loadedLogsMessageClient} separateHeight={this.props.tableHeight} messages={this.props.messages} />
-            <div>{JSON.stringify(this.props.message, null, 4)}</div>
+            {this.props.isMessageVisible && <div><Button icon="caret-right" onClick={this.messageDisableHandle}/>>{JSON.stringify(this.props.message, null, 4)}</div>}
           </SplitterLayout>
         </SplitterLayout>
         </React.Fragment>
@@ -71,4 +74,4 @@ class ClientTab extends React.Component<Props> {
 }
 
 
-export default connect((state: ClientLogs.State) => state, {loadLogsClient, loadedLogsMessageClient, loadedLogsCallClient, toggleSeparate})(ClientTab);
+export default connect((state: ClientLogs.State) => state, {loadLogsClient, loadedLogsMessageClient, loadedLogsCallClient, toggleSeparate, messageDisable})(ClientTab);
