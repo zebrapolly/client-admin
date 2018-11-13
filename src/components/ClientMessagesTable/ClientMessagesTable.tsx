@@ -3,11 +3,12 @@ import { Table, Icon } from 'antd';
 import { ClientLogs } from '../../types/ClientLogs.types';
 import { Resizable } from 'react-resizable';
 import './ClientMessagesTable.css'
+
 const columns = [{
   title: 'Date',
   dataIndex: 'date',
   key: 'date',
-  width: 150,
+  width: 250,
   sorter: (a: ClientLogs.Message, b: ClientLogs.Message ) => {
     if (a.date === b.date) {
       return b.logSeq - a.logSeq;
@@ -20,19 +21,19 @@ const columns = [{
   dataIndex: 'direction',
   key: 'direction',
   minConstraints: [40,40],
-  width: 70,
+  width: 80,
 }, {
   title: 'Request',
   dataIndex: 'request',
   key: 'request',
   minConstraints: [35,35],
-  width: 70,
+  width: 80,
 },
 {
   title: 'IC',
   dataIndex: 'ic',
   key: 'ic',
-  width: 60,
+  width: 40,
   minConstraints: [30, 20],
   render: (value: boolean) => {
     if (value) {
@@ -60,7 +61,7 @@ const columns = [{
   title: 'I',
   dataIndex: 'newInstanceId',
   key: 'newInstanceId',
-  width: 40,
+  // width: 40,
   minConstraints: [30, 20],
   render: (value: boolean) => {
     if (value) {
@@ -80,7 +81,7 @@ console.log('minConstraints', minConstraints)
   }
 
   return (
-    <Resizable width={width} minConstraints={minConstraints} height={0} onResizeStop={onResizeStop}>
+    <Resizable width={width} minConstraints={minConstraints} height={0} onResize={onResizeStop}>
       <th {...restProps} />
     </Resizable>
   );
@@ -94,12 +95,16 @@ interface Props {
 
 export class ClientMessagesTable extends React.Component<Props> {
   state = {
-    columns
+    columns,
+    width: 530
   }
   handleResize = (index: number) => (e:any, p:any) => {
     this.setState((state: any) => {
-      console.log(state);
+      console.log(p);
+      
+      
       const nextColumns = [...state.columns];
+      state.width = state.width + p.size.width - nextColumns[index].width
       nextColumns[index] = {
         ...nextColumns[index],
         width: p.size.width,
@@ -128,8 +133,9 @@ export class ClientMessagesTable extends React.Component<Props> {
         minConstraints: column.minConstraints
       }),
     }));
+
     return (
-      <Table bordered={true} useFixedHeader={true} pagination={false} onRow={this.onRow} scroll={{x: 400, y: this.props.separateHeight - 45}} size="small" dataSource={this.props.messages} rowKey={'logSeq'} columns={cols} components={this.components}/>
+        <Table bordered={true} useFixedHeader={true} style={{width: this.state.width}} pagination={false} onRow={this.onRow} scroll={{x: this.state.width, y: this.props.separateHeight - 45}} size="small" dataSource={this.props.messages} rowKey={'logSeq'} columns={cols} components={this.components}/>
     )
   }
 }
