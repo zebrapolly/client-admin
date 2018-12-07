@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { connect } from 'react-redux';
 
-import { Spin, Input, Button } from 'antd';
+import { Spin, Input } from 'antd';
 const Search = Input.Search;
 //@ts-ignore
 import SplitterLayout from 'react-splitter-layout';
@@ -11,6 +11,8 @@ import { loadLogsClient, loadedLogsCallClient, toggleSeparate, loadedLogsMessage
 import { ClientLogs } from '../../types/ClientLogs.types';
 import { ClientCallsTable } from '../ClientCallsTable/ClientCallsTable';
 import { ClientMessagesTable } from '../ClientMessagesTable/ClientMessagesTable';
+import { ClientSeqenceDiagram } from '../ClientSeqenceDiagram/ClientSeqenceDiagram';
+// import { ClientSeqenceDiagram } from '../ClientSeqenceDiagram/ClientSeqenceDiagram';
 interface Props {
     calls: Array<ClientLogs.Call>
     messages: Array<ClientLogs.Message>
@@ -62,9 +64,11 @@ class ClientTab extends React.Component<Props> {
             logs={this.props.calls}
             loadedLogsCallClient={this.props.loadedLogsCallClient}
           />
-          <SplitterLayout>
+          <SplitterLayout>            
             <ClientMessagesTable loadedLogsMessageClient={this.props.loadedLogsMessageClient} separateHeight={this.props.tableHeight} messages={this.props.messages} />
-            {this.props.isMessageVisible && <div><Button icon="caret-right" onClick={this.messageDisableHandle}/>>{JSON.stringify(this.props.message, null, 4)}</div>}
+            <ClientSeqenceDiagram/>
+
+            {/* {this.props.isMessageVisible && <div><Button icon="caret-right" onClick={this.messageDisableHandle}/>>{JSON.stringify(this.props.message, null, 4)}</div>} */}
           </SplitterLayout>
         </SplitterLayout>
         </React.Fragment>
