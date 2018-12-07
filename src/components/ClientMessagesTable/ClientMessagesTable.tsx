@@ -75,7 +75,7 @@ const columns = [{
 
 const ResizeableTitle = (props: any) => {
   const { onResizeStop, width, minConstraints, ...restProps } = props;
-console.log('minConstraints', minConstraints)
+  console.log('minConstraints', minConstraints)
   if (!width) {
     return <th {...restProps} />;
   }
@@ -124,6 +124,15 @@ export class ClientMessagesTable extends React.Component<Props> {
       cell: ResizeableTitle,
     },
   };
+
+  onResizeTable = (e:any, p:any) => {
+    this.setState((state: any) => {
+      return {
+        ...state,
+        width: p.size.width,
+      }
+    })
+  }
   render() {
     const cols = this.state.columns.map((col, index) => ({
       ...col,
@@ -135,7 +144,11 @@ export class ClientMessagesTable extends React.Component<Props> {
     }));
 
     return (
-        <Table bordered={true} useFixedHeader={true} style={{width: this.state.width}} pagination={false} onRow={this.onRow} scroll={{x: this.state.width, y: this.props.separateHeight - 45}} size="small" dataSource={this.props.messages} rowKey={'logSeq'} columns={cols} components={this.components}/>
+      <Resizable width={this.state.width} height={this.props.separateHeight} onResize={this.onResizeTable}>
+        <div style={{width: this.state.width}}>
+          <Table  bordered={true} useFixedHeader={true} style={{width: this.state.width}} pagination={false} onRow={this.onRow} scroll={{x: this.state.width, y: this.props.separateHeight - 45}} size="small" dataSource={this.props.messages} rowKey={'logSeq'} columns={cols} components={this.components}/>          
+        </div>
+      </Resizable>
     )
   }
 }
