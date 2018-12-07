@@ -32,7 +32,6 @@ class ClientTab extends React.Component<Props> {
     this.props.toggleSeparate(this.separateHeight, window.innerHeight - this.separateHeight);
     this.props.loadLogsClient();
   }
-  //@ts-ignore
   onDragEnd = () => this.props.toggleSeparate(this.separateHeight, window.innerHeight - this.separateHeight);
   onSecondaryPaneSizeChange = (event: number) => this.separateHeight = event;
   onSearch = (value: string) => this.props.loadLogsClient(value);
